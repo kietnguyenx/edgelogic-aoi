@@ -1,0 +1,23 @@
+experiment_name: "EdgeLogic-AOI-Baseline"
+seed: 42
+accelerator: "gpu"   # Tự chạy trên RTX 4050
+devices: 1
+output_dir: "artifacts/checkpoints"
+
+patchcore:
+  backbone: "resnet18"         # Nhe gap 4x wide_resnet50_2, vua khit RTX 4050 6GB
+  layers: ["layer2", "layer3"]
+  coreset_sampling_ratio: 0.01 # 1% chuan toc do nhanh paper PatchCore (nhanh hon 10x)
+  num_neighbors: 9
+  train_batch_size: 8
+  eval_batch_size: 8
+  max_epochs: 1       # PatchCore chi can dung 1 epoch de xay Memory Bank!
+
+efficientad:
+  model_size: "small" # "small" hoặc "medium"
+  imagenet_dir: "data/raw/imagenette"
+  lr: 0.0001
+  weight_decay: 0.00001
+  train_batch_size: 1 # Chuẩn paper EfficientAD & anomalib yêu cầu batch_size=1
+  eval_batch_size: 16
+  max_epochs: 5       # Debug nhanh trên laptop: 5 epochs (~2 phút); train full: 50-70 epochs

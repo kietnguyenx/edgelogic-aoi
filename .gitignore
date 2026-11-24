@@ -1,0 +1,64 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Datasets & heavy artifacts (reproducible via scripts)
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/mvtec_ad/.gitkeep
+!data/raw/mvtec_loco/.gitkeep
+data/raw/mvtec_ad/*
+!data/raw/mvtec_ad/.gitkeep
+data/raw/mvtec_loco/*
+!data/raw/mvtec_loco/.gitkeep
+data/synthetic/*
+!data/synthetic/.gitkeep
+
+# Generated evaluation results & temporary dumps
+results/
+artifacts/*.zip
+*.zip
+*.tar
+*.tar.xz
+*.tar.gz
+
+artifacts/checkpoints/*
+!artifacts/checkpoints/.gitkeep
+artifacts/onnx/*
+!artifacts/onnx/.gitkeep
+artifacts/openvino_fp32/*
+!artifacts/openvino_fp32/.gitkeep
+artifacts/openvino_ptq_int8/*
+!artifacts/openvino_ptq_int8/.gitkeep
+artifacts/openvino_mixed_int8/*
+!artifacts/openvino_mixed_int8/.gitkeep
+
+# Experiment tracking
+mlruns/
+mlartifacts/
+mlflow.db
+wandb/
+
+# C++ build outputs
+cpp_edge_engine/build/
+cpp_edge_engine/out/
+*.exe
+*.dll
+*.lib
+*.pdb
+
+# IDE & OS
+.cache/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

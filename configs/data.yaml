@@ -1,0 +1,25 @@
+seed: 42
+
+# Kích thước ảnh chuẩn Edge (256x256 giúp OpenVINO/C++ chạy <10ms)
+image_size: 256
+batch_size: 16
+num_workers: 0  # Trên Windows nên để 0 hoặc 4, tránh để 8 dễ tốn RAM
+
+datasets:
+  mvtec_ad:
+    root: "data/raw/mvtec_ad"
+    categories:
+      - "metal_nut"    # Đai ốc kim loại 
+      - "screw"        # Ốc vít (có nhiều vết xước siêu nhỏ <0.2%)
+      - "transistor"   # Linh kiện điện tử 
+
+  mvtec_loco:
+    root: "data/raw/mvtec_loco"
+    categories:
+      - "splicing_connectors"  # Lỗi Logic đấu nối dây cáp & giắc cắm
+      - "screw_bag"            # Lỗi Logic đóng gói thiếu/thừa ốc vít
+
+# Ngưỡng định nghĩa nhóm lỗi siêu nhỏ (Micro-defect) cho thí nghiệm NNCF INT8
+micro_defect:
+  micro_threshold: 0.002   # Diện tích lỗi < 0.2% tổng pixel ảnh
+  small_threshold: 0.010   # Diện tích lỗi từ 0.2% đến 1.0%

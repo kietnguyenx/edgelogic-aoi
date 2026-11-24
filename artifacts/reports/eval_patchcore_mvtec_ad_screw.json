@@ -1,0 +1,44 @@
+{
+  "model": "patchcore",
+  "dataset": "mvtec_ad",
+  "category": "screw",
+  "checkpoint": "D:\\Download\\Workspace\\Project\\EdgeLogic-AOI\\artifacts\\checkpoints\\patchcore\\mvtec_ad\\screw\\Patchcore\\MVTecAD\\screw\\v3\\weights\\lightning\\model.ckpt",
+  "total_test_images": 160,
+  "overall_image_auroc": 0.9514,
+  "optimal_image_f1": 0.9508,
+  "optimal_f1_threshold": 0.499667,
+  "factory_safety_gate": {
+    "target_recall": 0.99,
+    "threshold": 0.473839,
+    "actual_recall": 0.9916,
+    "escape_rate": 0.0084,
+    "overkill_fpr": 0.3902
+  },
+  "defect_subtype_auroc": {
+    "manipulated_front": 0.9339,
+    "scratch_head": 0.9583,
+    "scratch_neck": 0.9844,
+    "thread_side": 0.9024,
+    "thread_top": 0.9756
+  },
+  "area_bucket_metrics": {
+    "micro": {
+      "count": 24,
+      "auroc": 0.9004,
+      "recall_at_opt_f1": 0.9167,
+      "recall_at_factory_99": 1.0
+    },
+    "small": {
+      "count": 94,
+      "auroc": 0.9639,
+      "recall_at_opt_f1": 0.9894,
+      "recall_at_factory_99": 0.9894
+    },
+    "normal": {
+      "count": 1,
+      "auroc": 1.0,
+      "recall_at_opt_f1": 1.0,
+      "recall_at_factory_99": 1.0
+    }
+  }
+}
