@@ -1,0 +1,129 @@
+{
+  "fp32_xml": "artifacts\\openvino_fp32\\patchcore_mvtec_ad_screw.xml",
+  "total_quantizable_ops": 19,
+  "profiling_time_sec": 87.08,
+  "uniform_int8_distortion": 0.185846,
+  "recommended_fp16_layers": [
+    "/model/model/MatMul",
+    "/model/model/feature_extractor/feature_extractor/layer2/layer2.0/conv2/Conv/WithoutBiases",
+    "/model/model/feature_extractor/feature_extractor/layer1/layer1.0/conv1/Conv/WithoutBiases",
+    "/model/model/feature_extractor/feature_extractor/layer1/layer1.1/conv2/Conv/WithoutBiases",
+    "/model/model/feature_extractor/feature_extractor/layer3/layer3.1/conv1/Conv/WithoutBiases"
+  ],
+  "ranked_layers": [
+    {
+      "op_name": "/model/model/MatMul",
+      "op_type": "MatMul",
+      "distortion": 0.155718,
+      "gain": 0.030128
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer2/layer2.0/conv2/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.167022,
+      "gain": 0.018824
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer1/layer1.0/conv1/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.167775,
+      "gain": 0.018071
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer1/layer1.1/conv2/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.167922,
+      "gain": 0.017924
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer3/layer3.1/conv1/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.169352,
+      "gain": 0.016494
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer3/layer3.0/conv1/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.180661,
+      "gain": 0.005185
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer2/layer2.0/downsample/downsample.0/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.180737,
+      "gain": 0.005109
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer2/layer2.1/conv2/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.182098,
+      "gain": 0.003748
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer1/layer1.1/conv1/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.182335,
+      "gain": 0.003511
+    },
+    {
+      "op_name": "/model/model/anomaly_map_generator/blur/Conv",
+      "op_type": "Convolution",
+      "distortion": 0.185229,
+      "gain": 0.000617
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer2/layer2.1/conv1/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.185273,
+      "gain": 0.000573
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer3/layer3.1/conv2/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.185434,
+      "gain": 0.000412
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer2/layer2.0/conv1/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.185768,
+      "gain": 7.8e-05
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer3/layer3.0/conv2/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.186869,
+      "gain": -0.001023
+    },
+    {
+      "op_name": "/model/model/MatMul_2",
+      "op_type": "MatMul",
+      "distortion": 0.187727,
+      "gain": -0.001881
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer3/layer3.0/downsample/downsample.0/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.190188,
+      "gain": -0.004342
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/layer1/layer1.0/conv2/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.193012,
+      "gain": -0.007166
+    },
+    {
+      "op_name": "/model/model/feature_extractor/feature_extractor/conv1/Conv/WithoutBiases",
+      "op_type": "Convolution",
+      "distortion": 0.196819,
+      "gain": -0.010973
+    },
+    {
+      "op_name": "/model/model/MatMul_1",
+      "op_type": "MatMul",
+      "distortion": 0.198497,
+      "gain": -0.012651
+    }
+  ]
+}

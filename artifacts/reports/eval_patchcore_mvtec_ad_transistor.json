@@ -1,0 +1,37 @@
+{
+  "model": "patchcore",
+  "dataset": "mvtec_ad",
+  "category": "transistor",
+  "checkpoint": "/kaggle/working/outputs/checkpoints/patchcore/mvtec_ad/transistor/Patchcore/MVTecAD/transistor/v0/weights/lightning/model.ckpt",
+  "total_test_images": 100,
+  "overall_image_auroc": 0.9954,
+  "optimal_image_f1": 0.963,
+  "optimal_f1_threshold": 0.5,
+  "factory_safety_gate": {
+    "target_recall": 0.99,
+    "threshold": 0.475153,
+    "actual_recall": 1.0,
+    "escape_rate": 0.0,
+    "overkill_fpr": 0.1167
+  },
+  "defect_subtype_auroc": {
+    "bent_lead": 0.9967,
+    "cut_lead": 1.0,
+    "damaged_case": 1.0,
+    "misplaced": 0.985
+  },
+  "area_bucket_metrics": {
+    "small": {
+      "count": 6,
+      "auroc": 0.9944,
+      "recall_at_opt_f1": 1.0,
+      "recall_at_factory_99": 1.0
+    },
+    "normal": {
+      "count": 34,
+      "auroc": 0.9956,
+      "recall_at_opt_f1": 0.9706,
+      "recall_at_factory_99": 0.9706
+    }
+  }
+}

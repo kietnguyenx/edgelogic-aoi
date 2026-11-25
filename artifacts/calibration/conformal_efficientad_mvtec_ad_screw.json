@@ -1,0 +1,24 @@
+{
+  "alpha_escape": 0.02,
+  "alpha_overkill": 0.05,
+  "t_pass": 0.487701,
+  "t_reject": 0.525642,
+  "gray_zone_width": 0.037941,
+  "n_calib_good": 20,
+  "n_calib_defect": 59,
+  "model": "efficientad",
+  "dataset": "mvtec_ad",
+  "category": "screw",
+  "validation": {
+    "binary_2way_escape_rate": 0.0,
+    "binary_2way_overkill_rate": 0.4762,
+    "conformal_escape_rate": 0.0,
+    "escaped_count": 0,
+    "n_defect": 60,
+    "conformal_overkill_rate": 0.0,
+    "overkill_count": 0,
+    "n_good": 21,
+    "uncertain_review_rate": 0.2469,
+    "automation_rate": 0.7531
+  }
+}

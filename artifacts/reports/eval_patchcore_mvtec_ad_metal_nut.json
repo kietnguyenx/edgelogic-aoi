@@ -1,0 +1,37 @@
+{
+  "model": "patchcore",
+  "dataset": "mvtec_ad",
+  "category": "metal_nut",
+  "checkpoint": "/kaggle/working/outputs/checkpoints/patchcore/mvtec_ad/metal_nut/Patchcore/MVTecAD/metal_nut/v0/weights/lightning/model.ckpt",
+  "total_test_images": 115,
+  "overall_image_auroc": 0.9985,
+  "optimal_image_f1": 0.9946,
+  "optimal_f1_threshold": 0.5,
+  "factory_safety_gate": {
+    "target_recall": 0.99,
+    "threshold": 0.436058,
+    "actual_recall": 1.0,
+    "escape_rate": 0.0,
+    "overkill_fpr": 0.1364
+  },
+  "defect_subtype_auroc": {
+    "bent": 1.0,
+    "color": 0.9938,
+    "flip": 1.0,
+    "scratch": 1.0
+  },
+  "area_bucket_metrics": {
+    "small": {
+      "count": 7,
+      "auroc": 0.9805,
+      "recall_at_opt_f1": 0.8571,
+      "recall_at_factory_99": 0.8571
+    },
+    "normal": {
+      "count": 86,
+      "auroc": 1.0,
+      "recall_at_opt_f1": 1.0,
+      "recall_at_factory_99": 1.0
+    }
+  }
+}

@@ -2,9 +2,9 @@
   "model": "patchcore",
   "dataset": "mvtec_loco",
   "category": "splicing_connectors",
-  "checkpoint": "D:\\Download\\Workspace\\Project\\EdgeLogic-AOI\\artifacts\\checkpoints\\patchcore\\mvtec_loco\\splicing_connectors\\Patchcore\\MVTecLOCO\\splicing_connectors\\v4\\weights\\lightning\\model.ckpt",
+  "checkpoint": "/kaggle/working/outputs/checkpoints/patchcore/mvtec_loco/splicing_connectors/Patchcore/MVTecLOCO/splicing_connectors/v0/weights/lightning/model.ckpt",
   "total_test_images": 312,
-  "overall_image_auroc": 0.7361,
+  "overall_image_auroc": 0.787,
   "optimal_image_f1": 0.7644,
   "optimal_f1_threshold": 0.0,
   "factory_safety_gate": {
@@ -15,25 +15,25 @@
     "overkill_fpr": 1.0
   },
   "defect_subtype_auroc": {
-    "logical_anomalies": 0.7151,
-    "structural_anomalies": 0.7627
+    "logical_anomalies": 0.7508,
+    "structural_anomalies": 0.833
   },
   "area_bucket_metrics": {
     "micro": {
       "count": 31,
-      "auroc": 0.5446,
+      "auroc": 0.7357,
       "recall_at_opt_f1": 1.0,
       "recall_at_factory_99": 1.0
     },
     "small": {
       "count": 26,
-      "auroc": 0.7673,
+      "auroc": 0.7935,
       "recall_at_opt_f1": 1.0,
       "recall_at_factory_99": 1.0
     },
     "normal": {
       "count": 136,
-      "auroc": 0.7738,
+      "auroc": 0.7975,
       "recall_at_opt_f1": 1.0,
       "recall_at_factory_99": 1.0
     }

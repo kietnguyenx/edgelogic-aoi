@@ -1,199 +1,166 @@
 # EdgeLogic-AOI: Production Edge AOI Engine for Logical Assembly & Micro-Defect Inspection
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C.svg?logo=c%2B%2B)](https://isocpp.org/)
 [![Intel OpenVINO](https://img.shields.io/badge/Intel-OpenVINO%202026.4-0071C5.svg?logo=intel)](https://www.intel.com/content/www/us/en/developer/tools/openvino-toolkit/overview.html)
 [![Intel NNCF](https://img.shields.io/badge/Intel-NNCF%203.4-0071C5.svg)](https://github.com/openvinotoolkit/nncf)
 [![Anomalib](https://img.shields.io/badge/Anomalib-2.7.1-orange.svg)](https://github.com/openvinotoolkit/anomalib)
 
-> **High-Throughput Industrial Automated Optical Inspection (AOI) Engine designed for Automotive Cable & Precision Mechanical Fastener Assembly.**  
-> Solves the dual challenge of **Logical Assembly Violations** (MVTec LOCO AD) and **Micro-Defects (<0.2% surface area)** (MVTec AD) under edge hardware constraints using **Intel NNCF Mixed-Precision Quantization (INT8/FP16)** and a sub-10ms **C++17 OpenVINO Edge Runtime**.
+> **Industrial Automated Optical Inspection (AOI) platform for structural micro-defects (<0.2% area) and logical assembly violations.**  
+> Combines **Unsupervised Anomaly Detection** (`PatchCore`, `EfficientAD`), **Intel NNCF Mixed-Precision INT8 + QAMR (Quantization-Aligned Memory Bank Re-indexing)**, **Station-Adaptive Optical Drift Gating**, **Split-Conformal 3-Way Triage**, a **C++17 OpenVINO Edge Engine**, and a **FastAPI + WebSocket Industrial Workbench**.
 
 ---
 
-## 🏭 Industrial Problem & Technical Motivation
-
-In automated manufacturing lines (e.g., automotive cable harness routing, ECU assembly, and micro-fastener placement):
-1. **The Dual Defect Dilemma**: Traditional visual inspection either misses **structural micro-defects** (hairline cracks, thread galling spanning $<0.2\%$ pixel area) or completely fails to detect **logical assembly anomalies** (correct components, but wrong count, wrong cable routing sequence, or missing assembly pins).
-2. **The Edge Quantization Pitfall**: Standard Post-Training Quantization (Uniform INT8) severely degrades high-frequency feature maps, causing micro-defect escape rates to spike from $<1\%$ to over $18\%$.
-3. **Overconfidence & False Rejection**: Deterministic anomaly thresholds trigger massive false reject alarms during camera lens blur or illumination shifts, halting factory conveyors unnecessarily.
-
-**EdgeLogic-AOI** addresses all three challenges with a production-validated architecture:
+## System Architecture
 
 ```mermaid
-flowchart TD
-    A[Industrial High-Speed Camera Feed] --> B[Camera Drift Gate\nLaplacian Variance & Hist-Shift]
-    B -- "Drift Detected (Blur/Shift)" --> C[Alert: Maintenance & Recalibrate]
-    B -- "Quality Pass" --> D[Dual-Branch Anomaly Core]
-    
-    subgraph Dual-Branch Anomaly Core
-        D1[Patchcore Branch\nResNet-18 / Coreset Memory Bank\nMicro-Defect Specialist]
-        D2[EfficientAD-S Branch\nStudent-Teacher + Autoencoder\nLogical Assembly Specialist]
-    end
-    D --> D1
-    D --> D2
-
-    D1 & D2 --> E[Fused Anomaly Map & Score Engine]
-    E --> F[Conformal Prediction 3-Way Triage\nGuarantee: Defect Escape <= 1%]
-    
-    F -->|Score < T_pass| G1[Conveyor PASS\nDeterministic]
-    F -->|Score > T_defect| G2[Pneumatic EJECT\nDefective Component]
-    F -->|T_pass <= Score <= T_defect| G3[Review Bin & On-Demand VLM Copilot\nQwen2.5-VL Root Cause Explanation]
+flowchart LR
+    A["Camera / Video / Conveyor Frame"] --> B["Stage 1: Optical Drift Gate\nLaplacian, Brightness, Contrast, Bhattacharyya"]
+    B -- "Optical Fault" --> C["PLC 0xFF Andon Halt\nSkip AI Inference"]
+    B -- "Pass" --> D["Stage 2: OpenVINO INT8 Runtime\nPatchCore QAMR / EfficientAD-S Mixed INT8"]
+    D --> E["Stage 3: Split-Conformal 3-Way Triage\nFinite-Sample Overkill & Escape Control"]
+    E -- "Score < t_pass" --> F1["PASS (PLC 0x01)\nFast-Path Good Line"]
+    E -- "t_pass <= Score <= t_reject" --> F2["REVIEW (PLC 0x02)\nDivert + Root-Cause Copilot"]
+    E -- "Score > t_reject" --> F3["REJECT (PLC 0x03)\nEject + Root-Cause Copilot"]
 ```
 
 ---
 
-## ⚡ Key Technical Features
+## Verified Empirical Benchmarks
 
-### 1. Dual-Branch Anomaly Architecture
-* **Structural Branch (`Patchcore`)**: Extracts localized multi-scale mid-level patch features. Optimized with greedy coreset subsampling ($1\%$) to maintain micro-defect sensitivity ($<0.2\%$ area, down to 65 pixels) with ultra-low memory footprints.
-* **Logical Branch (`EfficientAD-S`)**: Employs asymmetric Student-Teacher feature pyramid distillation combined with an autoencoder branch to detect global relational violations (e.g., misrouted wires, extra/missing screws).
+All metrics below are measured directly on **MVTec AD** and **MVTec LOCO AD** using the scripts in this repository (full JSON reports stored in `artifacts/reports/` and `artifacts/calibration/`).
 
-### 2. Intel NNCF Mixed-Precision INT8 Quantization
-* Rather than applying aggressive uniform INT8 quantization, EdgeLogic-AOI runs an automated **Layer Sensitivity Analysis**.
-* Sensitive early feature extractors and high-frequency projection heads are preserved in **FP16**, while compute-heavy inner GEMM/Conv layers are quantized to **INT8 Symmetric**.
-* **Result**: Recovers $100\%$ of micro-defect detection accuracy while achieving a **$3.4\times$ latency reduction** over FP32 baseline.
+### 1. Cloud GPU Training Suite (9 Models — Kaggle 2x T4 Parallel)
 
-### 3. Sub-10ms C++17 OpenVINO Inference Engine
-* Pure C++17 inference pipeline with zero Python GIL overhead.
-* Thread pool multi-buffering with SIMD-vectorized preprocessing (`OpenCV + Intel IPP`).
-* Direct asynchronous OpenVINO InferRequest queuing for real-time factory line speeds ($>120\text{ FPS}$).
+| Dataset | Category | Model | Image AUROC | Pixel AUROC | Optimal F1 |
+| :--- | :--- | :--- | :---: | :---: | :---: |
+| MVTec AD | `metal_nut` | PatchCore (`wide_resnet50_2`, coreset 0.1) | **0.9985** | 0.9869 | **0.9946** |
+| MVTec AD | `transistor` | PatchCore (`wide_resnet50_2`, coreset 0.1) | **0.9954** | 0.9732 | **0.9630** |
+| MVTec AD | `screw` | EfficientAD-S (70 epochs) | **0.9732** | 0.9833 | 0.9412 |
+| MVTec AD | `screw` | PatchCore (`wide_resnet50_2`, coreset 0.1) | 0.9668 | **0.9890** | **0.9587** |
+| MVTec AD | `metal_nut` | EfficientAD-S (70 epochs) | 0.9868 | 0.9687 | 0.9727 |
+| MVTec AD | `transistor` | EfficientAD-S (70 epochs) | 0.9408 | 0.9296 | 0.8537 |
+| MVTec LOCO | `splicing_connectors` | EfficientAD-M (70 epochs) | **0.8088** | — | — |
+| MVTec LOCO | `splicing_connectors` | PatchCore (`wide_resnet50_2`, coreset 0.1) | 0.7870 | — | — |
+| MVTec LOCO | `screw_bag` | EfficientAD-M (70 epochs) | 0.6005 | — | — |
 
-### 4. Conformal Prediction 3-Way Triage & Safety Gating
-* Eliminates arbitrary argmax thresholds with distribution-free **Inductive Conformal Prediction (ICP)**.
-* Mathematically guarantees a **Factory Defect Escape Rate $\le 1\%$** ($\alpha = 0.01$).
-* Unconfident predictions are routed to an **Uncertainty Review Bin**, where an on-demand **VLM (Qwen2.5-VL)** generates root-cause textual explanations for factory technicians.
+### 2. Intel OpenVINO 2026.4 & NNCF Quantization Benchmark (Local Intel CPU, `mvtec_ad/screw`)
+
+Standard Uniform PTQ INT8 degrades `PatchCore` sharply (`0.9510 -> 0.7661`) due to FP32 memory-bank distribution mismatch and `MatMul` L2 distance quantization error. Protecting sensitive ops via NNCF sensitivity profiling and re-indexing the memory bank from the INT8 backbone (**QAMR**) restores accuracy beyond FP32 while preserving **100% micro-defect recall**.
+
+| Model & Precision Variant | Image AUROC | Micro-Defect Recall | P50 Latency | Async Throughput | Model Size |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **PatchCore FP32** (OpenVINO IR) | 0.9510 | 95.83% | 21.90 ms | 67.9 FPS | 15.57 MB |
+| **PatchCore Uniform PTQ INT8** | 0.7661 *(−18.5%)* | 91.67% | 13.74 ms | 106.6 FPS | 5.33 MB |
+| **PatchCore NNCF + QAMR (`coreset=0.02`)** | **0.9699** | **100.00%** | **19.66 ms** | **67.3 FPS** | **12.43 MB** |
+| **PatchCore NNCF + QAMR (`coreset=0.01`)** | 0.9412 | — | — | **82.4 FPS** | **7.62 MB** |
+| **EfficientAD-S FP32** (OpenVINO IR) | 0.9846 | 91.67% | 253.74 ms | 6.4 FPS | 30.87 MB |
+| **EfficientAD-S Uniform PTQ INT8** | 0.9785 | 87.50% *(Drop)* | 78.14 ms | 22.5 FPS | 7.96 MB |
+| **EfficientAD-S NNCF Mixed INT8** | **0.9797** | **91.67%** *(0% Drop)* | **76.64 ms** | **22.9 FPS (`3.58x`)** | **7.96 MB (`3.88x`)** |
+
+### 3. Factory Safety Layer Verification (Held-Out Validation)
+
+* **Station-Adaptive Optical Drift Gate** (`python_research/calibration/drift_gate.py`): Auto-calibrates Laplacian blur, luminance, contrast, sensor clipping, and Bhattacharyya histogram thresholds from `train/good` percentiles (backlit-safe). Verified **30/30 (100%) Clean Pass** and **30/30 (100%) Blur/Dark/Glare Interlock Catch** on both `mvtec_ad/screw` and `mvtec_loco/splicing_connectors`.
+* **Split-Conformal 3-Way Triage** (`python_research/calibration/conformal_triage.py`):
+  * `PatchCore QAMR (screw)`: Overkill reduced from **14.29% -> 0.00%** (`0/21` good parts rejected), **66.67%** full automation rate.
+  * `EfficientAD-S Mixed INT8 (screw)`: Overkill reduced from **47.62% -> 0.00%** (`0/21`), Escape **0.00%** (`0/60`), **75.31%** full automation rate.
 
 ---
 
-## 📊 Benchmark & Empirical Results
-
-Evaluated across **MVTec AD** (Micro-Defects: `screw`, `metal_nut`, `transistor`) and **MVTec LOCO AD** (Logical Anomalies: `splicing_connectors`, `screw_bag`).
-
-| Pipeline / Branch | Target Defect Type | Image AUROC | Micro-Defect Recall (<0.2%) | Latency (CPU i7-13700H) | Throughput (FPS) |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| **Patchcore FP32** (PyTorch) | Structural / Surface | **0.9514** | 95.8% | 34.2 ms | 29.2 |
-| **Patchcore INT8 Uniform** | Structural / Surface | 0.8841 | 79.2% *(Drop!)* | 10.1 ms | 99.0 |
-| **Patchcore Mixed INT8/FP16** (Intel NNCF) | Structural / Surface | **0.9488** | **95.8%** *(Zero Drop)* | **11.4 ms** | **87.7** |
-| **EfficientAD-S FP32** (PyTorch) | Logical Assembly | **0.8920** | 91.2% | 22.8 ms | 43.8 |
-| **OpenVINO C++17 Engine (Fused)** | Dual Inspection | **0.9320** | **94.7%** | **7.8 ms** | **128.2 FPS** |
-
-*Hardware: Intel Core i7-13700H @ 45W TDP, OpenVINO 2026.4 CPU Plugin, BF16/INT8 execution.*
-
----
-
-## 📂 Project Structure
+## Project Structure
 
 ```text
 EdgeLogic-AOI/
-├── api/                        # FastAPI service & live inspection endpoints
-│   ├── main.py
-│   └── report_generator.py
-├── artifacts/                  # Quantized IR models, calibration & audit reports
-│   ├── reports/
-│   │   ├── defect_area_stats.json
-│   │   └── eval_*.json
-├── configs/                    # Production YAML configurations
-│   ├── data.yaml
-│   ├── train_structural.yaml
-│   ├── train_logical.yaml
-│   ├── quantize_nncf.yaml
-│   └── calibration.yaml
-├── cpp_edge_engine/            # C++17 Production Runtime
+├── api/
+│   ├── main.py                      # FastAPI REST + high-throughput binary WebSocket (/ws/inspect)
+│   ├── engine_service.py            # Decoupled 4-stage inspection runtime & PLCInterface
+│   └── static/                      # Industrial Technical Workbench UI (HTML/CSS/JS)
+├── artifacts/
+│   ├── calibration/                 # Drift baselines, score dumps & Conformal thresholds (.json)
+│   └── reports/                     # Verified evaluation, sensitivity & quantization benchmarks
+├── configs/                         # YAML configs for data, training, NNCF & calibration
+├── cpp_edge_engine/                 # Pure C++17 OpenVINO Edge Engine (LATENCY & Async THROUGHPUT)
 │   ├── CMakeLists.txt
-│   ├── include/                # Header declarations (AOIEngine, DriftGate, Conformal)
-│   └── src/                    # Implementations using OpenVINO C++ API
-├── docker/                     # Edge deployment Dockerfile & Compose
-│   ├── Dockerfile.edge
-│   └── docker-compose.yml
-├── notebooks/                  # Training notebooks (Kaggle P100 / Colab / Local)
+│   ├── include/                     # aoi_engine.hpp, drift_gate.hpp, conformal_triage.hpp, metrics_timer.hpp
+│   └── src/                         # C++17 implementations & CLI runner (main.cpp)
+├── docker/
+│   └── Dockerfile.edge              # Multi-stage OpenVINO Linux runtime build (dev -> runtime)
+├── notebooks/
 │   └── train_cloud_colab_kaggle.ipynb
-├── python_research/            # Python core algorithms & calibration
-│   ├── data/                   # Micro-defect area filters & LOCO parsing
-│   ├── models/                 # Patchcore & EfficientAD model definitions
-│   ├── training/               # Multi-platform training & evaluation scripts
-│   ├── quantization/           # ONNX export, PTQ, NNCF Mixed-Precision
-│   ├── calibration/            # Conformal 3-way triage & Camera drift gate
-│   └── vlm_copilot/            # Qwen2.5-VL root-cause explanation generator
-├── scripts/                    # Environment check, dataset helpers & conveyor sim
-└── tests/                      # PyTest suite for inference parity & calibration
+├── python_research/
+│   ├── data/                        # Micro-defect area analysis & dataset loaders
+│   ├── training/                    # Anomalib training & evaluation scripts
+│   ├── quantization/                # ONNX export, Uniform PTQ, NNCF sensitivity & QAMR Mixed INT8
+│   ├── calibration/                 # Optical Drift Gate & Split-Conformal 3-Way Triage
+│   └── vlm_copilot/                 # On-demand slow-path hotspot & root-cause explainer
+└── tests/                           # PyTest suite (Drift Gate, Conformal, OpenVINO & API/WS)
 ```
 
 ---
 
-## 🚀 Quick Start Guide
+## Quick Start
 
-### 1. Prerequisites & Installation
+### 1. Environment Setup
 
 ```bash
-# Clone repository
-git clone https://github.com/<your-username>/EdgeLogic-AOI.git
-cd EdgeLogic-AOI
-
-# Create virtual environment with Python 3.11
+git clone https://github.com/kietnguyenx/edgelogic-aoi.git
+cd edgelogic-aoi
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+# Windows:
+.venv\Scripts\activate
+# Linux/macOS:
+source .venv/bin/activate
 
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-Verify your local environment:
+### 2. Launch the Industrial Inspection Workbench (FastAPI + WebSocket)
+
 ```bash
-python scripts/check_env.py
+uvicorn api.main:app --host 127.0.0.1 --port 8088 --reload
 ```
 
-### 2. Dataset Setup & Micro-Defect Area Analysis
+Open `http://127.0.0.1:8088` in your browser to inspect:
+* **Conveyor**: Live stream of real MVTec test parts through all 4 stages.
+* **Image**: Single-image upload with interactive Jet heatmap opacity, ROI hotspot overlay, and JSON/key-value diagnostics.
+* **Video & Live Camera**: Decoupled native-refresh-rate `requestAnimationFrame` rendering with binary WebSocket (`/ws/inspect`) inference streaming.
+* **Benchmarks & MES Log**: Live empirical benchmark tables and PLC audit trail (`0x01 Pass`, `0x02 Divert`, `0x03 Eject`, `0xFF Andon`).
 
-Inspect micro-defect pixel distribution across categories:
+### 3. Run Quantization, Calibration & Unit Tests
+
 ```bash
-python python_research/data/micro_defect_filter.py --output artifacts/reports/defect_area_stats.json
-```
-
-### 3. Model Training (Cloud / Local)
-
-* **Local Training (Fast Baseline / RTX 4050)**:
-  ```bash
-  python python_research/training/train.py --model patchcore --dataset mvtec_ad --category screw --backbone resnet18 --coreset 0.01
-  ```
-* **Full 70-Epoch Training (Free Cloud GPU)**:
-  Open [`notebooks/train_cloud_colab_kaggle.ipynb`](notebooks/train_cloud_colab_kaggle.ipynb) on Kaggle (P100) or Google Colab (T4) with GPU accelerator enabled.
-
-### 4. Quantization & Mixed-Precision INT8 Optimization
-
-Export trained models and quantize preserving micro-defects:
-```bash
-# Export to ONNX
+# Export FP32 ONNX + OpenVINO IR with parity check
 python python_research/quantization/export_onnx.py --model patchcore --dataset mvtec_ad --category screw
 
-# Run Layer Sensitivity Profiling & NNCF Mixed-Precision Quantization
-python python_research/quantization/mixed_precision_nncf.py --model patchcore --category screw
+# Run NNCF sensitivity-guided Mixed INT8 + QAMR benchmark
+python python_research/quantization/mixed_precision_nncf.py --model patchcore --dataset mvtec_ad --category screw --coreset 0.02
+
+# Calibrate Optical Drift Gate & Split-Conformal 3-Way Triage
+python python_research/calibration/drift_gate.py --dataset mvtec_ad --category screw
+python python_research/calibration/conformal_triage.py --scores-json artifacts/calibration/scores_mixed_patchcore_mvtec_ad_screw.json
+
+# Verify full test suite (Drift Gate, Conformal Triage, OpenVINO INT8, REST & WebSocket)
+python -m pytest tests/ -v
 ```
 
-### 5. Build C++17 Edge Engine
+### 4. Build & Run C++17 OpenVINO Edge Engine (Docker Multi-Stage)
 
 ```bash
-cd cpp_edge_engine
-mkdir build && cd build
-cmake .. -DOpenVINO_DIR=<path-to-openvino-cmake>
-cmake --build . --config Release
-```
+docker build -f docker/Dockerfile.edge -t edgelogic-aoi-edge:latest .
 
-### 6. Run API Server & Webhook Inspection
+# Single-stream LATENCY mode with full Drift Gate + Conformal PLC summary
+docker run --rm -v "${PWD}/artifacts:/app/artifacts:ro" -v "${PWD}/data:/app/data:ro" \
+  edgelogic-aoi-edge:latest --mode latency --limit 60
 
-```bash
-uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+# Multi-stream Async THROUGHPUT benchmark
+docker run --rm -v "${PWD}/artifacts:/app/artifacts:ro" -v "${PWD}/data:/app/data:ro" \
+  edgelogic-aoi-edge:latest --mode throughput --limit 100
 ```
 
 ---
 
-## 🎯 Target Industry Applications
-* **Automotive Wire Harness Assembly**: Validating multi-pin connector lock positions and color sequence routing (`splicing_connectors`).
-* **Precision Mechanical Fasteners**: Detecting thread micro-stripping, surface burrs, and galling on M2/M3 fasteners (`screw`, `metal_nut`).
-* **Electronics Manufacturing Services (EMS)**: Inspecting surface-mount transistor solder bridges and component polarity (`transistor`).
+## Dataset Attribution & License
 
----
-
-## 📜 License
-Distributed under the MIT License. See `LICENSE` for more information.
+* Benchmarks use **MVTec AD** and **MVTec LOCO AD** published by **MVTec Software GmbH** (CC BY-NC-SA 4.0, used strictly for non-commercial research and portfolio benchmarking).
+* Project source code is distributed under the **MIT License**.

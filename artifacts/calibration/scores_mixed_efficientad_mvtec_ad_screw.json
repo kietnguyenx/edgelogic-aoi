@@ -1,0 +1,967 @@
+{
+  "model": "efficientad",
+  "dataset": "mvtec_ad",
+  "category": "screw",
+  "records": [
+    {
+      "image_rel_path": "test/good/000.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.42822059988975525
+    },
+    {
+      "image_rel_path": "test/good/001.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4732755124568939
+    },
+    {
+      "image_rel_path": "test/good/002.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.49898040294647217
+    },
+    {
+      "image_rel_path": "test/good/003.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4691500663757324
+    },
+    {
+      "image_rel_path": "test/good/004.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.5135334730148315
+    },
+    {
+      "image_rel_path": "test/good/005.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.5256420373916626
+    },
+    {
+      "image_rel_path": "test/good/006.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4942449629306793
+    },
+    {
+      "image_rel_path": "test/good/007.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.47374072670936584
+    },
+    {
+      "image_rel_path": "test/good/008.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.48945242166519165
+    },
+    {
+      "image_rel_path": "test/good/009.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4753382205963135
+    },
+    {
+      "image_rel_path": "test/good/010.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4988926351070404
+    },
+    {
+      "image_rel_path": "test/good/011.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.45898133516311646
+    },
+    {
+      "image_rel_path": "test/good/012.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.473099946975708
+    },
+    {
+      "image_rel_path": "test/good/013.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.5044971108436584
+    },
+    {
+      "image_rel_path": "test/good/014.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.5139724016189575
+    },
+    {
+      "image_rel_path": "test/good/015.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.5250012874603271
+    },
+    {
+      "image_rel_path": "test/good/016.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.46950995922088623
+    },
+    {
+      "image_rel_path": "test/good/017.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.49602678418159485
+    },
+    {
+      "image_rel_path": "test/good/018.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.5005515813827515
+    },
+    {
+      "image_rel_path": "test/good/019.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4987565875053406
+    },
+    {
+      "image_rel_path": "test/good/020.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4624353051185608
+    },
+    {
+      "image_rel_path": "test/good/021.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.477923184633255
+    },
+    {
+      "image_rel_path": "test/good/022.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4848310649394989
+    },
+    {
+      "image_rel_path": "test/good/023.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.5115454196929932
+    },
+    {
+      "image_rel_path": "test/good/024.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.47805923223495483
+    },
+    {
+      "image_rel_path": "test/good/025.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4587443470954895
+    },
+    {
+      "image_rel_path": "test/good/026.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4821934401988983
+    },
+    {
+      "image_rel_path": "test/good/027.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.45716002583503723
+    },
+    {
+      "image_rel_path": "test/good/028.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.458862841129303
+    },
+    {
+      "image_rel_path": "test/good/029.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.5132131576538086
+    },
+    {
+      "image_rel_path": "test/good/030.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.47016826272010803
+    },
+    {
+      "image_rel_path": "test/good/031.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.49635156989097595
+    },
+    {
+      "image_rel_path": "test/good/032.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.46477010846138
+    },
+    {
+      "image_rel_path": "test/good/033.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4689350426197052
+    },
+    {
+      "image_rel_path": "test/good/034.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.48751702904701233
+    },
+    {
+      "image_rel_path": "test/good/035.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4776028096675873
+    },
+    {
+      "image_rel_path": "test/good/036.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.45837128162384033
+    },
+    {
+      "image_rel_path": "test/good/037.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4826762080192566
+    },
+    {
+      "image_rel_path": "test/good/038.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4745394289493561
+    },
+    {
+      "image_rel_path": "test/good/039.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4979885518550873
+    },
+    {
+      "image_rel_path": "test/good/040.png",
+      "defect_type": "good",
+      "gt_label": 0,
+      "pred_score": 0.4463154077529907
+    },
+    {
+      "image_rel_path": "test/manipulated_front/000.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/001.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/002.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5256420373916626
+    },
+    {
+      "image_rel_path": "test/manipulated_front/003.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/004.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/005.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/006.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/007.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/008.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/009.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/010.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/011.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/012.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5134676694869995
+    },
+    {
+      "image_rel_path": "test/manipulated_front/013.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/014.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/015.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/016.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/017.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/018.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/019.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5221179127693176
+    },
+    {
+      "image_rel_path": "test/manipulated_front/020.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5220783948898315
+    },
+    {
+      "image_rel_path": "test/manipulated_front/021.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.524544894695282
+    },
+    {
+      "image_rel_path": "test/manipulated_front/022.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/manipulated_front/023.png",
+      "defect_type": "manipulated_front",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/000.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/001.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.524040162563324
+    },
+    {
+      "image_rel_path": "test/scratch_head/002.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5115454196929932
+    },
+    {
+      "image_rel_path": "test/scratch_head/003.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/004.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/005.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/006.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5178169012069702
+    },
+    {
+      "image_rel_path": "test/scratch_head/007.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/008.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/009.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/010.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/011.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/012.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/013.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/014.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/015.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/016.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5153899788856506
+    },
+    {
+      "image_rel_path": "test/scratch_head/017.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/018.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5201956033706665
+    },
+    {
+      "image_rel_path": "test/scratch_head/019.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/020.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5246809124946594
+    },
+    {
+      "image_rel_path": "test/scratch_head/021.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/022.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_head/023.png",
+      "defect_type": "scratch_head",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/000.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/001.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/002.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/003.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/004.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/005.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/006.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/007.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/008.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/009.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/010.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/011.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/012.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/013.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/014.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/015.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/016.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/017.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/018.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/019.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/020.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/021.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/022.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/023.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/scratch_neck/024.png",
+      "defect_type": "scratch_neck",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/000.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5198752880096436
+    },
+    {
+      "image_rel_path": "test/thread_side/001.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/002.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/003.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5005647540092468
+    },
+    {
+      "image_rel_path": "test/thread_side/004.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.4890662133693695
+    },
+    {
+      "image_rel_path": "test/thread_side/005.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/006.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/007.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/008.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/009.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/010.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/011.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/012.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5211567878723145
+    },
+    {
+      "image_rel_path": "test/thread_side/013.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/014.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/015.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.4915458559989929
+    },
+    {
+      "image_rel_path": "test/thread_side/016.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/017.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_side/018.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.507380485534668
+    },
+    {
+      "image_rel_path": "test/thread_side/019.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.48770132660865784
+    },
+    {
+      "image_rel_path": "test/thread_side/020.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5022544264793396
+    },
+    {
+      "image_rel_path": "test/thread_side/021.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.52088463306427
+    },
+    {
+      "image_rel_path": "test/thread_side/022.png",
+      "defect_type": "thread_side",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/000.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/001.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/002.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/003.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/004.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/005.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/006.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/007.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/008.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/009.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/010.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/011.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/012.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/013.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/014.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/015.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/016.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/017.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/018.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/019.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/020.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/021.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    },
+    {
+      "image_rel_path": "test/thread_top/022.png",
+      "defect_type": "thread_top",
+      "gt_label": 1,
+      "pred_score": 0.5259624719619751
+    }
+  ]
+}
