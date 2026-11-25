@@ -62,3 +62,6 @@ cpp_edge_engine/out/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Internal training logs
+artifacts/train_logs/
