@@ -8,32 +8,34 @@ import openvino as ov
 
 CATEGORY_HINTS = {
     "screw": {
-        "micro": "Vết xước mảnh ở thân/đầu vít hoặc ba-via siêu nhỏ trên bước ren (<0.25% diện tích).",
-        "normal": "Biến dạng mũ vít, mẻ ren lớn hoặc cong trục vít.",
+        "micro": "Hairline surface scratch or micro-burr along thread pitch (<0.25% area).",
+        "normal": "Fastener head deformation, chipped thread crest, or bent shaft.",
     },
     "metal_nut": {
-        "micro": "Xước nhẹ bề mặt mạ hoặc mẻ viền cạnh lục giác.",
-        "normal": "Móp cạnh đai ốc, sai màu xử lý nhiệt hoặc lật ngược mặt.",
+        "micro": "Minor plating scratch or micro-chipping along hexagonal rim.",
+        "normal": "Hex edge dent, heat-treatment discoloration, or inverted orientation.",
     },
     "transistor": {
-        "micro": "Mẻ nhẹ cạnh vỏ nhựa hoặc xước chân linh kiện.",
-        "normal": "Cong/gãy chân cực, đặt lệch vị trí hoặc nứt vỏ.",
+        "micro": "Minor package edge chip or lead surface abrasion.",
+        "normal": "Bent/missing terminal lead, placement offset, or cracked casing.",
     },
     "splicing_connectors": {
-        "micro": "Xước nhẹ vỏ cách điện dây cáp hoặc bụi kim loại ở đầu kẹp.",
-        "normal": "Lỗi LOGIC lắp ráp: cắm sai cổng giắc nối, thiếu/thừa dây hoặc sai thứ tự màu cáp.",
+        "micro": "Minor cable insulation nick or metallic debris near clamp.",
+        "normal": "Logical assembly fault: misrouted port, missing/extra wire, or wrong color sequence.",
     },
     "screw_bag": {
-        "micro": "Mẻ nhẹ cạnh long-đen/đai ốc bên trong túi.",
-        "normal": "Lỗi LOGIC đóng gói: thiếu/thừa ốc vít, sai chiều dài vít hoặc thiếu đai ốc/long-đen.",
+        "micro": "Minor washer/nut rim nick inside package.",
+        "normal": "Logical kitting fault: missing/extra fastener, wrong screw length, or missing nut/washer.",
     },
 }
+
+
 def localize_hotspot(anomaly_map: np.ndarray) -> tuple[float, list[float], str]:
-    """Tách đỉnh nóng nhất (>= 80% max) trên bản đồ nhiệt 256x256 để lấy BBox & % diện tích."""
+    """Isolate peak anomaly region (>= 80% max) on 256x256 map to extract BBox & area %."""
     amap = np.asarray(anomaly_map, dtype=np.float32).squeeze()
     a_min, a_max = float(amap.min()), float(amap.max())
     if a_max - a_min < 1e-6:
-        return 0.0, [0.0, 0.0, 1.0, 1.0], "toàn ảnh"
+        return 0.0, [0.0, 0.0, 1.0, 1.0], "Full Frame"
 
     norm = (amap - a_min) / (a_max - a_min)
     mask = (norm >= 0.80).astype(np.uint8)
@@ -41,7 +43,7 @@ def localize_hotspot(anomaly_map: np.ndarray) -> tuple[float, list[float], str]:
 
     ys, xs = np.where(mask > 0)
     if len(xs) == 0:
-        return area_pct, [0.0, 0.0, 1.0, 1.0], "trung tâm"
+        return area_pct, [0.0, 0.0, 1.0, 1.0], "Center"
 
     h, w = norm.shape[:2]
     bbox = [
@@ -51,9 +53,10 @@ def localize_hotspot(anomaly_map: np.ndarray) -> tuple[float, list[float], str]:
         round(float(ys.max() + 1) / h, 4),
     ]
     cx, cy = 0.5 * (bbox[0] + bbox[2]), 0.5 * (bbox[1] + bbox[3])
-    v_pos = "trên" if cy < 0.38 else ("dưới" if cy > 0.62 else "giữa")
-    h_pos = "trái" if cx < 0.38 else ("phải" if cx > 0.62 else "trung tâm")
-    return area_pct, bbox, f"vùng {v_pos}-{h_pos}"
+    v_pos = "Top" if cy < 0.38 else ("Bottom" if cy > 0.62 else "Middle")
+    h_pos = "Left" if cx < 0.38 else ("Right" if cx > 0.62 else "Center")
+    region = "Center" if (v_pos == "Middle" and h_pos == "Center") else f"{v_pos}-{h_pos}"
+    return area_pct, bbox, region
 
 
 def explain_defect(
@@ -63,14 +66,17 @@ def explain_defect(
     category: str,
 ) -> dict:
     area_pct, bbox, region = localize_hotspot(anomaly_map)
-    scale = "micro (<0.25%)" if area_pct < 0.25 else "macro/logical"
-    hints = CATEGORY_HINTS.get(category, {"micro": "Vi-lỗi bề mặt cục bộ.", "normal": "Lỗi cấu trúc hoặc lắp ráp."})
+    scale = "Micro (<0.25%)" if area_pct < 0.25 else "Macro / Logical"
+    hints = CATEGORY_HINTS.get(
+        category,
+        {"micro": "Localized micro-surface anomaly.", "normal": "Structural or assembly anomaly."},
+    )
     cause = hints["micro"] if area_pct < 0.25 else hints["normal"]
 
     op_action = (
-        "Kích hoạt van khí nén loại bỏ ngay & ghi log phế phẩm lên MES."
+        "Trigger pneumatic eject (0x03) & log reject to MES."
         if triage_action == "DEFECT_REJECT"
-        else "Đẩy sang khay QA kiểm tra bằng mắt tại đúng tọa độ khoanh vùng."
+        else "Divert to QA review station (0x02) & inspect highlighted ROI."
     )
     return {
         "category": category,

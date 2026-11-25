@@ -1,0 +1,32 @@
+{
+  "FP32 Baseline": {
+    "auroc": 0.8194,
+    "opt_f1": 0.7918,
+    "micro_auroc": 0.7953,
+    "micro_recall_at_f1": 0.6774,
+    "p50_ms": 818.5,
+    "fps_single": 1.2,
+    "fps_async": 1.7,
+    "size_mb": 79.25
+  },
+  "Uniform PTQ INT8": {
+    "auroc": 0.5,
+    "opt_f1": 0.7644,
+    "micro_auroc": 0.5,
+    "micro_recall_at_f1": 1.0,
+    "p50_ms": 233.43,
+    "fps_single": 4.0,
+    "fps_async": 6.4,
+    "size_mb": 20.1
+  },
+  "OpenVINO FP16 (Lossless)": {
+    "auroc": 0.8181,
+    "opt_f1": 0.7918,
+    "micro_auroc": null,
+    "micro_recall_at_f1": null,
+    "p50_ms": 969.98,
+    "fps_single": 1.1,
+    "fps_async": 1.9,
+    "size_mb": 39.74
+  }
+}

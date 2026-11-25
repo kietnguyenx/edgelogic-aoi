@@ -1,0 +1,32 @@
+{
+  "FP32 Baseline": {
+    "auroc": 0.9985,
+    "opt_f1": 0.9894,
+    "micro_auroc": null,
+    "micro_recall_at_f1": null,
+    "p50_ms": 460.94,
+    "fps_single": 2.2,
+    "fps_async": 3.7,
+    "size_mb": 227.09
+  },
+  "Uniform PTQ INT8": {
+    "auroc": 0.978,
+    "opt_f1": 0.9613,
+    "micro_auroc": null,
+    "micro_recall_at_f1": null,
+    "p50_ms": 172.91,
+    "fps_single": 5.8,
+    "fps_async": 10.0,
+    "size_mb": 90.42
+  },
+  "NNCF + Fused QAMR": {
+    "auroc": 1.0,
+    "opt_f1": 1.0,
+    "micro_auroc": null,
+    "micro_recall_at_f1": null,
+    "p50_ms": 90.52,
+    "fps_single": 10.4,
+    "fps_async": 17.1,
+    "size_mb": 50.57
+  }
+}

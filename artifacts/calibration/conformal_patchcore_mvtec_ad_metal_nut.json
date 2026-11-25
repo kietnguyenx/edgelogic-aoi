@@ -1,0 +1,24 @@
+{
+  "alpha_escape": 0.02,
+  "alpha_overkill": 0.05,
+  "t_pass": 40.548527,
+  "t_reject": 40.548527,
+  "gray_zone_width": 0.0,
+  "n_calib_good": 11,
+  "n_calib_defect": 46,
+  "model": "patchcore",
+  "dataset": "mvtec_ad",
+  "category": "metal_nut",
+  "validation": {
+    "binary_2way_escape_rate": 0.0,
+    "binary_2way_overkill_rate": 0.0,
+    "conformal_escape_rate": 0.0,
+    "escaped_count": 0,
+    "n_defect": 47,
+    "conformal_overkill_rate": 0.0,
+    "overkill_count": 0,
+    "n_good": 11,
+    "uncertain_review_rate": 0.0,
+    "automation_rate": 1.0
+  }
+}

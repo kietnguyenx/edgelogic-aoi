@@ -32,6 +32,19 @@ def preprocess_image(img_path: Path, image_size: int = 256) -> np.ndarray:
     return np.expand_dims(np.transpose(arr, (2, 0, 1)), axis=0)
 
 
+def _find_patch_feature_op(ov_model: ov.Model) -> ov.Node:
+    """Locate the 2D patch-embedding Reshape op [N_patches, C_dim] across any backbone/resolution."""
+    for op in ov_model.get_ordered_ops():
+        if op.get_type_name() != "Reshape":
+            continue
+        pshape = op.output(0).get_partial_shape()
+        if pshape.rank.is_static and pshape.rank.get_length() == 2 and pshape.is_static:
+            n_patches, c_dim = int(pshape[0].get_length()), int(pshape[1].get_length())
+            if n_patches > 16 and c_dim >= 64:
+                return op
+    raise RuntimeError("Could not locate 2D patch-embedding Reshape node in OpenVINO graph.")
+
+
 def quantize_patchcore_fused_qamr(
     fp32_xml: Path,
     out_xml: Path,
@@ -59,7 +72,7 @@ def quantize_patchcore_fused_qamr(
     )
 
     # 2. Cắt Backbone tại nút đặc trưng Reshape & trích xuất lại Coreset Memory Bank khớp hệ quy chiếu INT8 (QAMR)
-    reshape_op = [op for op in q_full.get_ordered_ops() if op.get_friendly_name() == "/model/model/Reshape"][0]
+    reshape_op = _find_patch_feature_op(q_full)
     bb_int8 = ov.Model([reshape_op.output(0)], q_full.get_parameters(), "backbone_int8")
     comp_bb = core.compile_model(bb_int8, "CPU", {"PERFORMANCE_HINT": "THROUGHPUT"})
     req_bb = comp_bb.create_infer_request()

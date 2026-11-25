@@ -35,6 +35,8 @@ const els = {
   videoInput: document.getElementById("videoInput"),
   rawCanvas: document.getElementById("rawCanvas"),
   heatCanvas: document.getElementById("heatCanvas"),
+  rawPlaceholder: document.getElementById("rawPlaceholder"),
+  heatPlaceholder: document.getElementById("heatPlaceholder"),
   captureCanvas: document.getElementById("captureCanvas"),
   liveVideo: document.getElementById("liveVideo"),
   opacitySlider: document.getElementById("opacitySlider"),
@@ -118,6 +120,8 @@ function renderViewport() {
 
 function updateUI(payload) {
   state.lastPayload = payload;
+  els.rawPlaceholder.classList.add("hidden");
+  els.heatPlaceholder.classList.add("hidden");
 
   // Header metadata
   document.getElementById("metaPartId").textContent = payload.part_id;
@@ -299,6 +303,8 @@ async function inspectBlob(blob, sourceName) {
 
 function startRenderLoop() {
   if (state.renderRafId) return;
+  els.rawPlaceholder.classList.add("hidden");
+  els.heatPlaceholder.classList.add("hidden");
   const tick = () => {
     if (state.mode !== "video" && state.mode !== "camera") {
       state.renderRafId = null;
@@ -427,6 +433,49 @@ function stopMediaStreams() {
   if (camHint) camHint.textContent = "Webcam idle";
 }
 
+function clearViewport(promptText = "Awaiting source input") {
+  state.srcImgObj = null;
+  state.heatImgObj = null;
+  state.lastPayload = null;
+
+  els.rawCanvas.getContext("2d").clearRect(0, 0, els.rawCanvas.width, els.rawCanvas.height);
+  els.heatCanvas.getContext("2d").clearRect(0, 0, els.heatCanvas.width, els.heatCanvas.height);
+
+  els.rawPlaceholder.textContent = promptText;
+  els.rawPlaceholder.classList.remove("hidden");
+  els.heatPlaceholder.textContent = "Awaiting inspection";
+  els.heatPlaceholder.classList.remove("hidden");
+
+  document.getElementById("metaPartId").textContent = "—";
+  document.getElementById("metaLatency").textContent = "—";
+  document.getElementById("metaFps").textContent = "—";
+  document.getElementById("srcTag").textContent =
+    state.mode === "image" ? "Image" :
+    state.mode === "video" ? "Video" :
+    state.mode === "camera" ? "Live Camera" : "Conveyor";
+
+  document.getElementById("stage1Dot").style.background = "var(--muted)";
+  document.getElementById("stage1Text").textContent = "Ready";
+  document.getElementById("mSharp").textContent = "—";
+  document.getElementById("mBright").textContent = "—";
+  document.getElementById("mContrast").textContent = "—";
+  document.getElementById("mHist").textContent = "—";
+
+  document.getElementById("triageDot").style.background = "var(--muted)";
+  document.getElementById("triageText").textContent = "Idle";
+  document.getElementById("scoreDisplay").textContent = "—";
+  document.getElementById("thresholdText").textContent = "Pass — · Reject —";
+  document.getElementById("scoreNeedle").style.left = "2%";
+
+  const plcEl = document.getElementById("plcHex");
+  plcEl.textContent = "—";
+  plcEl.style.color = "var(--muted)";
+
+  document.getElementById("copilotMode").textContent = "Standby";
+  els.diagTable.innerHTML = `<div class="diag-row"><span class="diag-key">Status</span><span class="diag-val">${promptText}</span></div>`;
+  els.diagJson.textContent = "{}";
+}
+
 function switchMode(mode) {
   stopMediaStreams();
   stopConveyorLine();
@@ -439,15 +488,18 @@ function switchMode(mode) {
   if (mode === "conveyor") {
     els.sourceActionSlot.innerHTML = `<button id="stepBtn" type="button" class="btn">Next Frame</button>`;
     document.getElementById("stepBtn").addEventListener("click", inspectConveyorNext);
-    inspectConveyorNext();
+    clearViewport("Click Next Frame or Run Line");
   } else if (mode === "image") {
     els.sourceActionSlot.innerHTML = `<button id="pickImgBtn" type="button" class="btn">Upload Image</button>`;
     document.getElementById("pickImgBtn").addEventListener("click", () => els.imageInput.click());
+    clearViewport("Upload an image to inspect");
   } else if (mode === "video") {
     els.sourceActionSlot.innerHTML = `<button id="pickVidBtn" type="button" class="btn">Upload Video</button>`;
     document.getElementById("pickVidBtn").addEventListener("click", () => els.videoInput.click());
+    clearViewport("Upload a video to inspect");
   } else if (mode === "camera") {
     els.sourceActionSlot.innerHTML = `<span id="camHint" class="muted-label">Webcam idle</span>`;
+    clearViewport("Click Start Camera");
   }
 
   syncPrimaryActionButton();
@@ -635,6 +687,7 @@ async function init() {
       state.lastImageFile = file;
       inspectBlob(file, `Image · ${file.name}`);
     }
+    e.target.value = "";
   });
 
   els.videoInput.addEventListener("change", e => {
@@ -649,11 +702,12 @@ async function init() {
     state.videoPlaying = true;
     startStreamSocket(`Video · ${file.name}`);
     syncPrimaryActionButton();
+    e.target.value = "";
   });
 
   syncPrimaryActionButton();
+  clearViewport("Click Next Frame or Run Line");
   await loadBenchmarks();
-  await inspectConveyorNext();
 }
 
 init();

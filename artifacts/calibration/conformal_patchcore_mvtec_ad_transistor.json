@@ -1,0 +1,24 @@
+{
+  "alpha_escape": 0.02,
+  "alpha_overkill": 0.05,
+  "t_pass": 40.205145,
+  "t_reject": 40.205145,
+  "gray_zone_width": 0.0,
+  "n_calib_good": 30,
+  "n_calib_defect": 20,
+  "model": "patchcore",
+  "dataset": "mvtec_ad",
+  "category": "transistor",
+  "validation": {
+    "binary_2way_escape_rate": 0.05,
+    "binary_2way_overkill_rate": 0.0333,
+    "conformal_escape_rate": 0.05,
+    "escaped_count": 1,
+    "n_defect": 20,
+    "conformal_overkill_rate": 0.0333,
+    "overkill_count": 1,
+    "n_good": 30,
+    "uncertain_review_rate": 0.0,
+    "automation_rate": 1.0
+  }
+}

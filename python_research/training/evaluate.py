@@ -128,8 +128,8 @@ def main() -> None:
     records: list[dict] = []
     for batch in predictions:
         paths = batch.image_path
-        labels = batch.gt_label.cpu().numpy().astype(int).tolist()
-        scores = batch.pred_score.cpu().numpy().astype(float).tolist()
+        labels = batch.gt_label.detach().cpu().numpy().reshape(-1).astype(int).tolist()
+        scores = batch.pred_score.detach().cpu().numpy().reshape(-1).astype(float).tolist()
         for path, label, score in zip(paths, labels, scores):
             rel = normalize_rel_path(str(path), args.category)
             defect_type = rel.split("/")[1] if len(rel.split("/")) >= 3 else "unknown"

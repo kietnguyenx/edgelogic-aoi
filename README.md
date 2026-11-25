@@ -44,16 +44,22 @@ flowchart LR
 | MVTec AD | `screw` | Micro-Defect (<0.2% area) | EfficientAD-S / PatchCore | **0.9732** / 0.9668 | **0.9890** | **0.9587** |
 | MVTec LOCO | `splicing_connectors` | Logical + Structural | EfficientAD-M | **0.8088** | — | — |
 
-### 2. Intel OpenVINO & NNCF Quantization (`mvtec_ad/screw`, CPU)
+### 2. Intel OpenVINO & NNCF Quantization (Local Intel CPU)
 
-| Model & Precision | Image AUROC | Micro-Defect Recall | P50 Latency | Async FPS | Size |
+| Category & Precision | Image AUROC | Optimal F1 | P50 Latency | Async FPS | Size |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| PatchCore FP32 (OpenVINO IR) | 0.9510 | 95.83% | 21.90 ms | 67.9 | 15.57 MB |
-| PatchCore Uniform PTQ INT8 | 0.7661 | 91.67% | 13.74 ms | 106.6 | 5.33 MB |
-| **PatchCore NNCF + QAMR (`coreset=0.02`)** | **0.9699** | **100.00%** | **19.66 ms** | **67.3** | **12.43 MB** |
-| EfficientAD-S FP32 (OpenVINO IR) | 0.9846 | 91.67% | 253.74 ms | 6.4 | 30.87 MB |
-| EfficientAD-S Uniform PTQ INT8 | 0.9785 | 87.50% | 78.14 ms | 22.5 | 7.96 MB |
-| **EfficientAD-S NNCF Mixed INT8** | **0.9797** | **91.67%** | **76.64 ms** | **22.9 (`3.58x`)** | **7.96 MB (`3.88x`)** |
+| `screw` · PatchCore FP32 | 0.9510 | 0.9355 | 21.90 ms | 67.9 | 15.57 MB |
+| `screw` · PatchCore Uniform PTQ INT8 | 0.7661 | 0.8583 | 13.74 ms | 106.6 | 5.33 MB |
+| **`screw` · PatchCore NNCF + QAMR (`coreset=0.02`)** | **0.9699** | **0.9590** | **19.66 ms** | **67.3** | **12.43 MB** |
+| `screw` · EfficientAD-S FP32 | 0.9846 | 0.9620 | 253.74 ms | 6.4 | 30.87 MB |
+| **`screw` · EfficientAD-S NNCF Mixed INT8** | **0.9797** | **0.9587** | **76.64 ms** | **22.9 (`3.58x`)** | **7.96 MB (`3.88x`)** |
+| `metal_nut` · PatchCore FP32 (`wide_resnet50_2`) | 0.9985 | 0.9894 | 460.94 ms | 3.7 | 227.09 MB |
+| **`metal_nut` · PatchCore NNCF + QAMR (`coreset=0.02`)** | **1.0000** | **1.0000** | **90.52 ms (`5.09x`)** | **17.1 (`4.62x`)** | **50.57 MB (`4.49x`)** |
+| `transistor` · PatchCore FP32 (`wide_resnet50_2`) | 0.9958 | 0.9750 | 482.09 ms | 3.9 | 222.88 MB |
+| **`transistor` · PatchCore NNCF + QAMR (`coreset=0.02`)** | **0.9979** | **0.9756** | **95.07 ms (`5.07x`)** | **18.5 (`4.74x`)** | **49.73 MB (`4.48x`)** |
+| **`splicing_connectors` · EfficientAD-M OpenVINO FP16** | **0.8181** | **0.7918** | 969.98 ms | 1.9 | **39.74 MB (`2.0x`)** |
+
+*Micro-defect recall on `screw`: PatchCore NNCF + QAMR achieves **100.00%**; EfficientAD-S NNCF Mixed INT8 preserves **91.67%** (0% drop vs FP32, vs 87.50% under Uniform PTQ).*
 
 ### 3. C++17 Docker Edge Engine (`openvino/ubuntu22_runtime`, `-O3`)
 

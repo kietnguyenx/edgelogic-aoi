@@ -1,0 +1,24 @@
+{
+  "alpha_escape": 0.02,
+  "alpha_overkill": 0.05,
+  "t_pass": 0.0,
+  "t_reject": 0.273423,
+  "gray_zone_width": 0.273423,
+  "n_calib_good": 59,
+  "n_calib_defect": 96,
+  "model": "efficientad",
+  "dataset": "mvtec_loco",
+  "category": "splicing_connectors",
+  "validation": {
+    "binary_2way_escape_rate": 0.0,
+    "binary_2way_overkill_rate": 1.0,
+    "conformal_escape_rate": 0.0,
+    "escaped_count": 0,
+    "n_defect": 97,
+    "conformal_overkill_rate": 0.0333,
+    "overkill_count": 2,
+    "n_good": 60,
+    "uncertain_review_rate": 0.6051,
+    "automation_rate": 0.3949
+  }
+}

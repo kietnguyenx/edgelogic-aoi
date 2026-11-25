@@ -12,6 +12,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import threading
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -114,7 +115,8 @@ class EdgeInspectionService:
         self.plc = PLCInterface()
 
         self.models_catalog: dict[str, dict[str, Any]] = {}
-        self._compiled_cache: dict[str, tuple[Any, Any]] = {}
+        self._compiled_cache: dict[str, Any] = {}
+        self._compile_lock = threading.Lock()
         self._drift_cache: dict[str, dict[str, Any] | None] = {}
         self._conformal_cache: dict[str, dict[str, Any]] = {}
         self._conveyor_queues: dict[str, list[dict[str, str]]] = {}
@@ -141,7 +143,7 @@ class EdgeInspectionService:
                 pretty_cat = category.replace("_", " ").title()
                 pretty_model = "PatchCore QAMR" if model_name == "patchcore" else "EfficientAD-S INT8"
                 if model_name == "efficientad" and dataset == "mvtec_loco":
-                    pretty_model = "EfficientAD-M INT8"
+                    pretty_model = "EfficientAD-M FP16"
 
                 self.models_catalog[stem] = {
                     "id": stem,
@@ -163,14 +165,14 @@ class EdgeInspectionService:
             return next(iter(self.models_catalog.keys()))
         raise RuntimeError("No OpenVINO .xml models found in artifacts/openvino_mixed_int8 or openvino_fp32.")
 
-    def _get_compiled(self, model_id: str) -> tuple[Any, Any]:
+    def _get_compiled(self, model_id: str) -> Any:
         if model_id not in self._compiled_cache:
-            meta = self.models_catalog[model_id]
-            ov_model = self.core.read_model(meta["xml_path"])
-            cfg = {"PERFORMANCE_HINT": "LATENCY"} if self.device.upper() == "CPU" else {}
-            compiled = self.core.compile_model(ov_model, self.device, cfg)
-            req = compiled.create_infer_request()
-            self._compiled_cache[model_id] = (compiled, req)
+            with self._compile_lock:
+                if model_id not in self._compiled_cache:
+                    meta = self.models_catalog[model_id]
+                    ov_model = self.core.read_model(meta["xml_path"])
+                    cfg = {"PERFORMANCE_HINT": "LATENCY"} if self.device.upper() == "CPU" else {}
+                    self._compiled_cache[model_id] = self.core.compile_model(ov_model, self.device, cfg)
         return self._compiled_cache[model_id]
 
     def _get_drift_baseline(self, dataset: str, category: str) -> dict[str, Any] | None:
@@ -317,10 +319,10 @@ class EdgeInspectionService:
 
         # Stage 2: OpenVINO Mixed-Precision INT8 Inference
         t1 = time.perf_counter()
-        compiled, req = self._get_compiled(mid)
+        compiled = self._get_compiled(mid)
         rgb = cv2.cvtColor(preview_bgr, cv2.COLOR_BGR2RGB)
         inp = np.expand_dims(np.transpose(rgb.astype(np.float32) / 255.0, (2, 0, 1)), axis=0)
-        ov_out = req.infer({compiled.input(0): inp})
+        ov_out = compiled([inp])
         score = float(ov_out[compiled.output(0)].reshape(-1)[0])
         amap = np.asarray(ov_out[compiled.output(1)]) if len(compiled.outputs) > 1 else np.zeros((256, 256), dtype=np.float32)
         infer_ms = round((time.perf_counter() - t1) * 1000.0, 2)

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EdgeLogic-AOI — Industrial Inspection Workbench</title>
-  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="stylesheet" href="/static/styles.css?v=4" />
 </head>
 <body>
   <div class="workbench">
@@ -84,6 +84,7 @@
               <div class="canvas-frame">
                 <canvas id="rawCanvas" width="320" height="320"></canvas>
                 <video id="liveVideo" class="hidden" playsinline muted loop></video>
+                <span id="rawPlaceholder" class="canvas-placeholder">Click Next Frame or Run Line</span>
               </div>
             </div>
 
@@ -94,6 +95,7 @@
               </div>
               <div class="canvas-frame">
                 <canvas id="heatCanvas" width="320" height="320"></canvas>
+                <span id="heatPlaceholder" class="canvas-placeholder">Awaiting inspection</span>
               </div>
             </div>
           </div>
@@ -233,6 +235,6 @@
 
   <!-- Hidden offscreen canvas for capturing live Video / Webcam frames -->
   <canvas id="captureCanvas" width="256" height="256" class="hidden"></canvas>
-  <script src="/static/app.js"></script>
+  <script src="/static/app.js?v=4"></script>
 </body>
 </html>

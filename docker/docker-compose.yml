@@ -1,0 +1,26 @@
+services:
+  workbench:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.workbench
+    image: edgelogic-aoi-workbench:latest
+    ports:
+      - "8088:8088"
+    environment:
+      - OPENVINO_DEVICE=CPU
+      - PLC_MODE=simulation
+    volumes:
+      - ../artifacts:/app/artifacts:ro
+      - ../data:/app/data:ro
+    restart: unless-stopped
+
+  edge-engine:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.edge
+    image: edgelogic-aoi-edge:latest
+    profiles: ["benchmark"]
+    volumes:
+      - ../artifacts:/app/artifacts:ro
+      - ../data:/app/data:ro
+    command: ["--mode", "latency", "--limit", "60"]
